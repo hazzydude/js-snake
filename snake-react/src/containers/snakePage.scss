@@ -1,0 +1,16 @@
+%flex-flow-item {
+    display: flex;
+    flex-flow: column;
+}
+
+.snake-container {
+    height: 100%;
+    width: 100%;
+    @extend %flex-flow-item;
+    .title-wrapper {
+        flex: 0 0 auto;
+    }
+    .canvas-container{
+    }
+
+}

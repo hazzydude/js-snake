@@ -1,0 +1,36 @@
+.navbar-main {
+    border-radius: 0px;
+    border-width: 0px;
+    background-color: #343a40;
+    margin-bottom: 0px;
+}
+
+.navbar-text {
+    margin: 15px;
+    .a {
+        color: white;
+    }
+}
+.navbar-header {
+    margin-left: 40px !important;
+    a {
+        color: whitesmoke !important;
+    }
+}
+.navbar-home-text {
+    margin: 15px;
+}
+
+.navbar-nav {
+    li {
+        a {
+            color: whitesmoke !important;
+        }
+    }
+    .active{
+        a{
+            text-decoration: underline !important;
+            background-color: #343a40 !important;
+        }
+    }
+}
