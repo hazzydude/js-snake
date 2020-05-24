@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Home from "./containers/home";
 import SnakePage from "./containers/snakePage";
-import Page2 from "./containers/page2";
+import Tetris from "./containers/tetrisPage";
 
 export default function Routes() {
   return (
@@ -13,8 +13,8 @@ export default function Routes() {
       <Route exact path="/snake">
         <SnakePage />
       </Route>
-      <Route exact path="/page2">
-        <Page2 />
+      <Route exact path="/tetris">
+        <Tetris />
       </Route>
     </Switch>
   );

@@ -18,8 +18,14 @@ class MyNavbar extends Component {
                             <LinkContainer to="/snake">
                                 <NavItem className="navbar-text">Snake</NavItem>
                             </LinkContainer>
-                            <LinkContainer to="/page2">
-                                <NavItem className="navbar-text">page2</NavItem>
+                            <LinkContainer to="/tetris">
+                                <NavItem className="navbar-text">Tetris</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="/minesweeper">
+                                <NavItem className="navbar-text">Minesweeper</NavItem>
+                            </LinkContainer>
+                            <LinkContainer to="/pacman">
+                                <NavItem className="navbar-text">Pacman</NavItem>
                             </LinkContainer>
                         </Nav>
                     </Navbar.Collapse>

@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
-import SnakeCanvas from "../games/snake/snakeCanvas"
+import TetrisCanvas from "../games/tetris/tetrisCanvas"
 import './gamePage.scss'
-class SnakePage extends Component {
-
-
+class TetrisPage extends Component {
   render() {
 
 
     return (
       <div className="game-container">
         <div className="title-wrapper">
-          <h1>Snake</h1>
+          <h1>Tetris</h1>
         </div>
         <br />
         <div className='canvas-container'>
-          <SnakeCanvas canvasSize={400}/>
+          <TetrisCanvas canvasWidth={200} canvasHeight={400}/>
         </div>
       </div>
     );
   }
 }
 
-export default SnakePage;
+export default TetrisPage;
