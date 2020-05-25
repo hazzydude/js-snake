@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import Shape from './classes/shape'
+import LockedTiles from './classes/lockedTiles'
 
 class TetrisCanvas extends Component {
+    //no kicks
 
     constructor(props) {
         super(props)
         this.tilesize = 20;
         this.keyDownEvent = this.keyDownEvent.bind(this)
         this.currentshape = new Shape
+        this.lockedTiles = new LockedTiles
     }
 
 
@@ -20,31 +23,17 @@ class TetrisCanvas extends Component {
         const x = 8;
         setInterval(() => this.draw(ctx), 1000 / x);
         const speed = 1
-        
-        setInterval(() => this.moveShape(), 1000 / speed);
+
+        setInterval(() => this.attemptMove('down'), 1000 / speed);
     }
 
     draw(ctx) {
         this.paintBackground(ctx)
         this.paintCurrentShape(ctx)
+        this.paintLockedTiles(ctx)
     }
 
-    paintCurrentShape(ctx) {
-        //get 0index coords
-        //get array and color
-        //fill individual boxes
-        const xindex = this.currentshape.centerCoords[0]
-        const yindex = this.currentshape.centerCoords[1]
-        ctx.fillStyle = this.currentshape.color
-        this.currentshape.getRotationPosition().forEach(element => {
-            ctx.fillRect((xindex + element[0]) * this.tilesize+1, (yindex + element[1]) * this.tilesize+1, this.tilesize-2, this.tilesize-2);
-        })
 
-    }
-
-    moveShape(){
-        this.currentshape.centerCoords[1]++;
-    }
 
     paintBackground(ctx) {
         ctx.fillStyle = "black";
@@ -64,19 +53,111 @@ class TetrisCanvas extends Component {
         ctx.stroke();
     }
 
+    paintLockedTiles(ctx) {
+        ctx.fillStyle = "lightgrey";
+        this.lockedTiles.lockedTilesArr.forEach(element => {
+            ctx.fillRect(element[0] * this.tilesize + 1, element[1] * this.tilesize + 1, this.tilesize - 2, this.tilesize - 2);
+        })
+    }
+
+    paintCurrentShape(ctx) {
+        const xindex = this.currentshape.centerCoords[0];
+        const yindex = this.currentshape.centerCoords[1];
+        ctx.fillStyle = this.currentshape.color;
+        this.currentshape.getRotationPosition().forEach(element => {
+            ctx.fillRect((xindex + element[0]) * this.tilesize + 1, (yindex + element[1]) * this.tilesize + 1, this.tilesize - 2, this.tilesize - 2);
+        })
+    }
+
+    attemptMove(type) {
+        let attemptedPostion;
+        switch (type) {
+            case 'down':
+                attemptedPostion = this.currentshape.getRotationPosition().map(element =>
+                    [
+                        this.currentshape.centerCoords[0] + element[0],
+                        this.currentshape.centerCoords[1] + element[1] + 1
+                    ]);
+                if (this.checkCollisions(attemptedPostion)) {
+                    console.log('collision we should lock')
+                    const finalPos = this.currentshape.getRotationPosition().map(element =>
+                        [this.currentshape.centerCoords[0] + element[0],
+                        this.currentshape.centerCoords[1] + element[1]]
+                    )
+                    this.lockedTiles.addLockedTiles(finalPos)
+                    this.currentshape = new Shape
+
+                } else {
+                    this.currentshape.centerCoords[1]++;
+                }
+                break
+            case 'right':
+                attemptedPostion = this.currentshape.getRotationPosition().map(element =>
+                    [
+                        this.currentshape.centerCoords[0] + element[0] + 1,
+                        this.currentshape.centerCoords[1] + element[1]
+                    ]);
+                if (this.checkCollisions(attemptedPostion)) {
+                    console.log('collision nothing should change')
+                } else {
+                    this.currentshape.centerCoords[0]++;
+                }
+                break
+            case 'left':
+                attemptedPostion = this.currentshape.getRotationPosition().map(element =>
+                    [
+                        this.currentshape.centerCoords[0] + element[0] - 1,
+                        this.currentshape.centerCoords[1] + element[1]
+                    ]);
+                if (this.checkCollisions(attemptedPostion)) {
+                    console.log('collision nothing should change')
+                } else {
+                    this.currentshape.centerCoords[0]--;
+                }
+                break
+            case 'rotate':
+                attemptedPostion = this.currentshape.testRotation().map(element =>
+                    [
+                        this.currentshape.centerCoords[0] + element[0],
+                        this.currentshape.centerCoords[1] + element[1]
+                    ]);
+                if (this.checkCollisions(attemptedPostion)) {
+                    console.log('collision nothing should change')
+                } else {
+                    this.currentshape.rotate();
+                }
+                break
+        }
+
+    }
+
+    checkCollisions(arr) {
+        let ret = false
+        arr.forEach(e => {
+            this.lockedTiles.collisionTiles.forEach(element => {
+                if (element[0] == e[0] && element[1] == e[1]) {
+                    ret = true;
+                }
+            });
+        })
+        return ret
+    }
 
     keyDownEvent(e) {
         switch (e.keyCode) {
             case 37:
                 //left
-                this.currentshape.centerCoords[0]--;
+                this.attemptMove('left')
+                // this.currentshape.centerCoords[0]--;
                 break;
             case 38:
                 //up
-                this.currentshape.rotate();
+                if (this.currentshape.shapeNo !== 1) {
+                    this.attemptMove('rotate')
+                }
                 break;
             case 39:
-                this.currentshape.centerCoords[0]++;
+                this.attemptMove('right')
                 //right
                 break;
             case 40:
