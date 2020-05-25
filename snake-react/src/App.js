@@ -1,4 +1,3 @@
-import SnakeCanvas from "./games/snake/snakeCanvas"
 import React, { Component } from 'react'
 import './App.scss';
 import { render } from 'react-dom';
@@ -8,8 +7,6 @@ import MyNavbar from './myNavbar';
 class App extends Component {
 
   render() {
-
-
     return (
       <div className="App-container">
         <div className="App">

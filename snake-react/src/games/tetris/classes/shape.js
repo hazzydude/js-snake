@@ -58,7 +58,7 @@ class Shape {
                 this.color = 'purple'
                 this.tileArray = ([[0, 0], [0, -1], [0, 1], [1, 0]])
                 break
-
+            default:
                 console.log("Shape number not in range 0-7 : " + this.shapeNo)
         }
     }
@@ -84,6 +84,8 @@ class Shape {
                 return this.tileArray.map(element => [-element[0], -element[1]])
             case 3:
                 return this.tileArray.map(element => [element[1], -element[0]])
+            default:
+                console.log("error")
         }
 
     }

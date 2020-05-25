@@ -9,8 +9,8 @@ class TetrisCanvas extends Component {
         super(props)
         this.tilesize = 20;
         this.keyDownEvent = this.keyDownEvent.bind(this)
-        this.currentshape = new Shape
-        this.lockedTiles = new LockedTiles
+        this.currentshape = new Shape()
+        this.lockedTiles = new LockedTiles()
     }
 
 
@@ -79,14 +79,12 @@ class TetrisCanvas extends Component {
                         this.currentshape.centerCoords[1] + element[1] + 1
                     ]);
                 if (this.checkCollisions(attemptedPostion)) {
-                    console.log('collision we should lock')
                     const finalPos = this.currentshape.getRotationPosition().map(element =>
                         [this.currentshape.centerCoords[0] + element[0],
                         this.currentshape.centerCoords[1] + element[1]]
                     )
                     this.lockedTiles.addLockedTiles(finalPos)
-                    this.currentshape = new Shape
-
+                    this.currentshape = new Shape()
                 } else {
                     this.currentshape.centerCoords[1]++;
                 }
@@ -127,6 +125,8 @@ class TetrisCanvas extends Component {
                     this.currentshape.rotate();
                 }
                 break
+            default:
+                console.log("error")
         }
 
     }
@@ -135,7 +135,7 @@ class TetrisCanvas extends Component {
         let ret = false
         arr.forEach(e => {
             this.lockedTiles.collisionTiles.forEach(element => {
-                if (element[0] == e[0] && element[1] == e[1]) {
+                if (element[0] === e[0] && element[1] === e[1]) {
                     ret = true;
                 }
             });
@@ -163,6 +163,8 @@ class TetrisCanvas extends Component {
             case 40:
                 //down
                 break;
+            default:
+                console.log("Key pressed with code: " + e.keycode)
         }
     }
 

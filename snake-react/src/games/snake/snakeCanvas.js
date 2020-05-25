@@ -5,7 +5,7 @@ import Apple from './classes/apple'
 class snakeCanvas extends Component {
     constructor(props) {
         super(props)
-        
+
         this.tileSize = 20; // 20 x 20 = 400
         this.nextX = 0;
         this.nextY = 0;
@@ -67,12 +67,12 @@ class snakeCanvas extends Component {
         )
     }
 
-    checkCollision(){
-        if (this.snake.getSnakeX()===this.apple.getX() && this.snake.getSnakeY()===this.apple.getY()){
+    checkCollision() {
+        if (this.snake.getSnakeX() === this.apple.getX() && this.snake.getSnakeY() === this.apple.getY()) {
             this.snake.tailSizeAddOne()
             this.apple.randLoc()
         }
-    
+
     }
 
     keyDownEvent(e) {
@@ -93,6 +93,8 @@ class snakeCanvas extends Component {
                 this.nextX = 0;
                 this.nextY = 1;
                 break;
+            default:
+                console.log("Key pressed with code: " + e.keycode)
         }
     }
 

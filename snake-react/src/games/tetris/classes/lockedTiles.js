@@ -2,7 +2,6 @@ class LockedTiles {
     constructor() {
         this.lockedTilesArr = [];
         this.initBoundies();
-        console.log(this.wallsFloor)
     }
     initBoundies() {
         const xtiles = 10
