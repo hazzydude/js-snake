@@ -10,7 +10,7 @@ class Shape {
         this.rotation = 0;
         this.shapeNo = Math.ceil(Math.random() * 7)
         this.shapeGenerator()
-        this.centerCoords = [4, 0];
+        this.centerCoords = [4, -2];
     }
     rotate() {
         if (this.rotation < 3) {

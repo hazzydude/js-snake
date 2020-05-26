@@ -4,6 +4,14 @@ import LockedTiles from './classes/lockedTiles'
 
 class TetrisCanvas extends Component {
     //no kicks
+    //todo
+    //  delete completed rows (may need to refactor lockedTiles sort into arrays by y-coord, delete if 0 entries and shift down)
+    //  lose condition
+    //  speed downkey
+    //  ghost prediction and down key?
+    //  score?
+    //  queue?
+    //  holding bay?
 
     constructor(props) {
         super(props)
@@ -22,7 +30,7 @@ class TetrisCanvas extends Component {
         // render X times per second
         const x = 8;
         setInterval(() => this.draw(ctx), 1000 / x);
-        const speed = 1
+        const speed = 2
 
         setInterval(() => this.attemptMove('down'), 1000 / speed);
     }
