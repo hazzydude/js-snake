@@ -12,44 +12,56 @@ class snakeCanvas extends Component {
         this.snake = new Snake()
         this.apple = new Apple(this.tileSize)
         this.keyDownEvent = this.keyDownEvent.bind(this)
+        this.gameActive = false;
+    }
+    startGame() {
+        // render X times per second
+        const x = 4;
+        setInterval(() => this.draw(), 1000 / x);
+        this.gameActive = true;
+
     }
 
     componentDidMount() {
         const canvas = this.refs.canvas
-        const ctx = canvas.getContext("2d")
+        this.ctx = canvas.getContext("2d")
 
         document.addEventListener("keydown", this.keyDownEvent);
-        // render X times per second
-        const x = 4;
-        setInterval(() => this.draw(ctx), 1000 / x);
-
+        this.drawStartScreen()
     }
 
-    draw(ctx) {
+    drawStartScreen(ctx) {
+        this.ctx.font = "18px Consolas"
+        this.ctx.textAlign = 'center';
+        this.ctx.fillStyle = 'black';
+        this.ctx.fillText('Press Any Key To Start', this.props.canvasSize / 2, this.props.canvasSize / 2);
+    }
+
+    draw() {
         // move snake in next pos
         this.snake.moveSnake(this.nextX, this.nextY)
         this.snake.updateSnakeTrail()
         this.checkCollision()
-        this.paintBackground(ctx)
-        this.paintApple(ctx)
-        this.paintSnake(ctx)
+        this.paintBackground()
+        this.paintApple()
+        this.paintSnake()
 
     }
 
-    paintBackground(ctx) {
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, this.props.canvasSize, this.props.canvasSize);
+    paintBackground() {
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(0, 0, this.props.canvasSize, this.props.canvasSize);
     }
 
-    paintSnake(ctx) {
+    paintSnake() {
         for (let i = 0; i < this.snake.snakeTrail.length; i++) {
             if (i === 0) {
-                ctx.fillStyle = "darkgreen";
+                this.ctx.fillStyle = "darkgreen";
             } else {
-                ctx.fillStyle = "green";
+                this.ctx.fillStyle = "green";
             }
 
-            ctx.fillRect(
+            this.ctx.fillRect(
                 this.snake.snakeTrail[i][0] * this.tileSize,
                 this.snake.snakeTrail[i][1] * this.tileSize,
                 this.tileSize,
@@ -57,9 +69,10 @@ class snakeCanvas extends Component {
             )
         }
     }
-    paintApple(ctx) {
-        ctx.fillStyle = "red";
-        ctx.fillRect(
+
+    paintApple() {
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(
             this.apple.getX() * this.tileSize,
             this.apple.getY() * this.tileSize,
             this.tileSize,
@@ -76,6 +89,9 @@ class snakeCanvas extends Component {
     }
 
     keyDownEvent(e) {
+        if (!this.gameActive) {
+            this.startGame();
+        }
         switch (e.keyCode) {
             case 37:
                 this.nextX = -1;
